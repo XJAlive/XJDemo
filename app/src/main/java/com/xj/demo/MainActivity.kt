@@ -1,7 +1,11 @@
 package com.xj.demo
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -26,20 +30,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun click1(view: View) {
-//        startActivity(
-//            Intent(
-//                this,
-//                SecondActivity::class.java
-//            )
-//        )
-        test1()
+    fun navigation(view: View) {
+        startActivity(Intent(this, SecondActivity::class.java))
     }
 
     fun click2(view: View) {
         test2()
     }
 
+    @SuppressLint("CheckResult")
     fun test1() {
         concatObserver()
             .subscribe({
@@ -108,6 +107,14 @@ class MainActivity : AppCompatActivity() {
 
         val list = mutableListOf<Observable<Int>>(obser1, obser2, obser3, obser4, obser5)
         return Observable.concat(list)
+    }
+
+    fun start(view: View) {
+        startService(Intent(this@MainActivity, RunningService::class.java))
+    }
+
+    fun stop(view: View) {
+        stopService(Intent(this@MainActivity, RunningService::class.java))
     }
 
 }

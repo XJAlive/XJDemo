@@ -9,8 +9,8 @@
         android:id="@+id/btnClick1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跳转到SecondActivity"
-        android:onClick="navigation"
+        android:onClick="start"
+        android:text="bindService"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,24 +18,9 @@
         android:id="@+id/btnClick2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="button2"
-        android:onClick="click2"
-        app:layout_constraintTop_toBottomOf="@id/btnClick1" />
-
-    <Button
-        android:id="@+id/btnStartService"
-        android:layout_width="wrap_content"
-        android:text="开启服务"
-        app:layout_constraintTop_toBottomOf="@id/btnClick2"
-        android:onClick="start"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:text="关闭服务"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
         android:onClick="stop"
-        android:layout_height="wrap_content"/>
+        android:text="unBindService"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnClick1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
