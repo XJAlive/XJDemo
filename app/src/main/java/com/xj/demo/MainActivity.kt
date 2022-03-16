@@ -1,22 +1,16 @@
 package com.xj.demo
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiConsumer
 import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
 import io.reactivex.plugins.RxJavaPlugins
-import java.util.concurrent.Callable
 
 /**
  * Created by xiej on 2021/3/1
@@ -36,14 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     fun click2(view: View) {
         test2()
-    }
-
-    @SuppressLint("CheckResult")
-    fun test1() {
-        concatObserver()
-            .subscribe({
-                Log.e(TAG, "onNext.................$it")
-            })
     }
 
     @SuppressLint("CheckResult")
@@ -88,14 +74,6 @@ class MainActivity : AppCompatActivity() {
             Log.e(TAG, "onError.....................")
         })
 
-//        Observable.fromIterable(list)
-//            .collect(Callable { mutableListOf<String>() }, BiConsumer { t1, t2 ->
-//                t1.add(t2.blockingFirst())
-//            }).subscribe(Consumer {
-//                Log.e(TAG, "onNext.................$it")
-//            }, Consumer {
-//                Log.e(TAG, "onError.....................")
-//            })
     }
 
     private fun concatObserver(): Observable<Int> {

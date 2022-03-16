@@ -20,10 +20,10 @@ class RunningService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
+    override fun onBind(intent: Intent?): IBinder {
         Log.i("xj", "---->onBind,hashcode=${hashCode()}")
 
-        return null
+        return LocalBinder()
     }
 
     override fun onRebind(intent: Intent?) {
@@ -71,7 +71,7 @@ class RunningService : Service() {
         count++
         Log.i("xj", "count = $count")
 
-        if (count == 10) {
+        if (count == 20) {
             flag = false
             stopSelf()
         }
