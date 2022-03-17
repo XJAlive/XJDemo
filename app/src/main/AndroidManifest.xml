@@ -24,14 +24,20 @@
 
         <activity android:name=".SecondActivity">
             <intent-filter>
-<!--                <action android:name="android.intent.action.SEND" />-->
+                <!--                <action android:name="android.intent.action.SEND" />-->
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-                <data android:mimeType="text/plain"/>
+                <!--                <category android:name="android.intent.category.DEFAULT" />-->
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 
-        <service android:name=".RunningService"/>
+        <activity android:name=".contentprovider.ProviderActivity" />
+
+        <service android:name=".service.RunningService" />
+
+        <provider
+            android:name=".contentprovider.MyProvider"
+            android:authorities="cn.xj.provider" />
     </application>
 
 </manifest>

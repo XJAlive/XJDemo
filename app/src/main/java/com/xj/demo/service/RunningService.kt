@@ -1,4 +1,4 @@
-package com.xj.demo
+package com.xj.demo.service
 
 import android.app.Service
 import android.content.Intent

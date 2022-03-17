@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.xj.demo.contentprovider.ProviderActivity
+import com.xj.demo.service.RunningService
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -26,6 +28,10 @@ class MainActivity : AppCompatActivity() {
 
     fun navigation(view: View) {
         startActivity(Intent(this, SecondActivity::class.java))
+    }
+
+    fun navigation2Provider(view: View) {
+        startActivity(Intent(this, ProviderActivity::class.java))
     }
 
     fun click2(view: View) {
