@@ -33,11 +33,25 @@
 
         <activity android:name=".contentprovider.ProviderActivity" />
 
+        <activity android:name=".activity.Action1Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="com.xj.navigate" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.Action2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="com.xj.navigate" />
+            </intent-filter>
+        </activity>
+
         <service android:name=".service.RunningService" />
 
         <provider
             android:name=".contentprovider.MyProvider"
-            android:authorities="cn.xj.provider" />
+            android:authorities="com.xj.provider" />
     </application>
 
 </manifest>

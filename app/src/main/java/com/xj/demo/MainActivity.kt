@@ -54,21 +54,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         val mySubscriber: Observer<String> =
-            object : Observer<String> {
-                override fun onSubscribe(d: Disposable) {}
-                override fun onNext(s: String) {
-                    Log.e(TAG, "onNext.................$s")
-                }
+                object : Observer<String> {
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onNext(s: String) {
+                        Log.e(TAG, "onNext.................$s")
+                    }
 
-                override fun onError(e: Throwable) {
-                    Log.e(TAG, "onError.....................")
-                    RxJavaPlugins.onError(e)
-                }
+                    override fun onError(e: Throwable) {
+                        Log.e(TAG, "onError.....................")
+                        RxJavaPlugins.onError(e)
+                    }
 
-                override fun onComplete() {
-                    Log.e(TAG, "onCompleted.................")
+                    override fun onComplete() {
+                        Log.e(TAG, "onCompleted.................")
+                    }
                 }
-            }
 //        Observable.concat(list).subscribe(mySubscriber)
 
 
@@ -99,6 +99,13 @@ class MainActivity : AppCompatActivity() {
 
     fun stop(view: View) {
         stopService(Intent(this@MainActivity, RunningService::class.java))
+    }
+
+    fun filterAction(view: View) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_EDIT
+        }
+        startActivity(intent)
     }
 
 }

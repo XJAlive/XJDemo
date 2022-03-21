@@ -15,7 +15,7 @@ import com.xj.demo.R
 
 class ProviderActivity : AppCompatActivity() {
 
-    private val uri = Uri.parse("content://cn.xj.provider/user")
+    private val uri = Uri.parse("content://com.xj.provider/user")
 
     val handle = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {

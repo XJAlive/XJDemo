@@ -12,7 +12,7 @@ import android.net.Uri
 class MyProvider : ContentProvider() {
 
     companion object {
-        const val AUTHORITY = "cn.xj.provider"
+        const val AUTHORITY = "com.xj.provider"
         const val USER_TABLE_NAME = "user"
         const val USER_CODE = 2
     }

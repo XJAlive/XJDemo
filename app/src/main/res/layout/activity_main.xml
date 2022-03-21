@@ -47,4 +47,11 @@
         android:onClick="stop"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="测试Intent"
+        app:layout_constraintTop_toBottomOf="@id/btnStartService"
+        android:onClick="filterAction"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
