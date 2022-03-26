@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
 import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.service.RunningService
@@ -111,6 +112,10 @@ class MainActivity : AppCompatActivity() {
 
     fun networkAction(view: android.view.View) {
         startActivity(Intent(this, NetWorkActivity::class.java))
+    }
+
+    fun startBinder(view: android.view.View) {
+        startActivity(Intent(this, BinderActivity::class.java))
     }
 
 }
