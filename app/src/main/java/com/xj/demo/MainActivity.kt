@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.xj.demo.contentprovider.ProviderActivity
+import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.service.RunningService
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -54,21 +55,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         val mySubscriber: Observer<String> =
-                object : Observer<String> {
-                    override fun onSubscribe(d: Disposable) {}
-                    override fun onNext(s: String) {
-                        Log.e(TAG, "onNext.................$s")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, "onError.....................")
-                        RxJavaPlugins.onError(e)
-                    }
-
-                    override fun onComplete() {
-                        Log.e(TAG, "onCompleted.................")
-                    }
+            object : Observer<String> {
+                override fun onSubscribe(d: Disposable) {}
+                override fun onNext(s: String) {
+                    Log.e(TAG, "onNext.................$s")
                 }
+
+                override fun onError(e: Throwable) {
+                    Log.e(TAG, "onError.....................")
+                    RxJavaPlugins.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.e(TAG, "onCompleted.................")
+                }
+            }
 //        Observable.concat(list).subscribe(mySubscriber)
 
 
@@ -106,6 +107,10 @@ class MainActivity : AppCompatActivity() {
             action = Intent.ACTION_EDIT
         }
         startActivity(intent)
+    }
+
+    fun networkAction(view: android.view.View) {
+        startActivity(Intent(this, NetWorkActivity::class.java))
     }
 
 }
