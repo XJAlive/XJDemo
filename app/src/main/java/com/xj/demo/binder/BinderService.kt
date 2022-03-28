@@ -12,8 +12,8 @@ class Stub : Binder(), JService {
 
     companion object {
         internal const val INTERFACE_NAME = "com.xj.interface"
-        internal const val METHOD_PRINT = 0X001
-        internal const val METHOD_PLUS = 0X002
+        internal const val METHOD_PRINT = FIRST_CALL_TRANSACTION + 1
+        internal const val METHOD_PLUS = FIRST_CALL_TRANSACTION + 2
     }
 
     override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
@@ -40,11 +40,11 @@ class Stub : Binder(), JService {
     }
 
     override fun printLog() {
-        Log.i("xj", "服务调用了printLog() , 进程id = ${Process.myPid()}}")
+        Log.i("xj", "【服务端】 调用了printLog() , 进程id = ${Process.myPid()}}")
     }
 
     override fun plus(a: Int, b: Int): Int {
-        Log.i("xj", "服务调用了plus(a,b) ,a = $a b = $b,  进程id = ${Process.myPid()}}")
+        Log.i("xj", "【服务端】 调用了plus(a,b) ,a = $a b = $b,  进程id = ${Process.myPid()}}")
         return a + b
     }
 

@@ -24,11 +24,6 @@ class BinderActivity : AppCompatActivity() {
                 "kobe"
             )
         })
-//        Stub().attachInterface(object : IInterface {
-//            override fun asBinder(): IBinder {
-//                return Binder()
-//            }
-//        }, "com.xj.provider")
     }
 
 
