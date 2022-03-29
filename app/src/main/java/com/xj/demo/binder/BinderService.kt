@@ -61,7 +61,9 @@ class Stub : Binder(), JService, IInterface {
 }
 
 interface JService {
+    //无参方法
     fun printLog()
+    //含参方法
     fun plus(a: Int, b: Int): Int
 
     companion object {
