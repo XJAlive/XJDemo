@@ -1,6 +1,5 @@
 package com.xj.demo.contentprovider
 
-import android.content.ContentUris
 import android.content.ContentValues
 import android.database.ContentObserver
 import android.net.Uri
