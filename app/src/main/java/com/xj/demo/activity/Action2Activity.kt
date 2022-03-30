@@ -2,6 +2,7 @@ package com.xj.demo.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.os.PersistableBundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,11 @@ class Action2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.activity_action)
         findViewById<TextView>(R.id.tvAction).text = "action2"
+    }
+
+    @Synchronized
+    fun asyncFun() {
+        Handler().sendEmptyMessage(1)
     }
 
 }
