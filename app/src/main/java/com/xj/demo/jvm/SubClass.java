@@ -5,7 +5,7 @@ public class SubClass extends SuperClass {
         System.out.println("SubClass init!");
         //成功
         A = 1;
-
+        //测试提交
     }
 
     public static int A = 3;
