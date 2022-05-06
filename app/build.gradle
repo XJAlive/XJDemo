@@ -47,7 +47,12 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    api 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    api ('com.jakewharton.rxbinding2:rxbinding:2.1.1'){
+        exclude group: "io.reactivex.rxjava2"
+    }
+
+    api 'com.uber.autodispose:autodispose:1.4.0'
+    api('com.uber.autodispose:autodispose-android-archcomponents:1.4.0')
 
     api 'com.blankj:utilcodex:1.31.0'
 }
