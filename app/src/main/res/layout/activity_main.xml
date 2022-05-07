@@ -68,4 +68,11 @@
         android:onClick="startBinder"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="测试多线程场景"
+        app:layout_constraintTop_toBottomOf="@id/btnStartService"
+        android:onClick="startThread"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
