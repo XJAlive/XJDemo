@@ -5,6 +5,9 @@ public class SubClass extends SuperClass {
         System.out.println("SubClass init!");
         //成功
         A = 1;
+
+        //报错illegalReference
+//        int b = A;
     }
 
     public static int A = 3;

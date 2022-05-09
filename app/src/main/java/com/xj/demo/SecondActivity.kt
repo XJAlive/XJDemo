@@ -33,7 +33,7 @@ class SecondActivity : AppCompatActivity() {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 Log.i("xj", "---->onServiceConnected,hashcode=${this.hashCode()}")
 
-                (service as? RunningService.LocalBinder)?.run {
+                (service as? RunningService.Stub)?.run {
                     runningService = this.getService()
                 }
             }

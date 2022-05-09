@@ -14,7 +14,7 @@ class RunningService : Service() {
     var count = 0
     var flag = true
 
-    inner class LocalBinder : Binder() {
+    inner class Stub : Binder() {
         fun getService(): RunningService {
             return this@RunningService
         }
@@ -23,7 +23,7 @@ class RunningService : Service() {
     override fun onBind(intent: Intent?): IBinder {
         Log.i("xj", "---->onBind,hashcode=${hashCode()}")
 
-        return LocalBinder()
+        return Stub()
     }
 
     override fun onRebind(intent: Intent?) {

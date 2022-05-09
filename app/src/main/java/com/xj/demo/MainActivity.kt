@@ -10,6 +10,7 @@ import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
 import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.service.RunningService
+import com.xj.demo.thread.ThreadActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -118,4 +119,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, BinderActivity::class.java))
     }
 
+
+    fun startThread(view: View?) {
+        startActivity(Intent(this, ThreadActivity::class.java))
+    }
 }

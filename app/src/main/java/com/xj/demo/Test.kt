@@ -1,4 +1,4 @@
-package com.xj.demo.binder
+package com.xj.demo
 
 import android.util.ArrayMap
 import android.util.LruCache

@@ -60,6 +60,8 @@
 
         <activity android:name=".binder.BinderActivity" />
 
+        <activity android:name=".thread.ThreadActivity" />
+
         <activity
             android:name=".binder.BinderClientActivity"
             android:process=":other" />

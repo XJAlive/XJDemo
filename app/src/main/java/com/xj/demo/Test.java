@@ -1,4 +1,4 @@
-package com.xj.demo.binder;
+package com.xj.demo;
 
 
 import com.xj.demo.jvm.SubClass;
@@ -32,7 +32,7 @@ public class Test {
     }
 
 
-    public static void insert() {
+    public synchronized static void insert() {
         System.out.println("");
     }
 
