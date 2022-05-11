@@ -22,11 +22,24 @@ import io.reactivex.plugins.RxJavaPlugins
  */
 class MainActivity : AppCompatActivity() {
 
-    val TAG = "xj"
+    private val TAG = "xj"
+    var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.w("xj", "调用onSaveInstanceState")
+        count++
+        outState.putInt("key", count)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Log.e("xj", "调用onRestoreInstanceState, ${savedInstanceState.getInt("key")}")
     }
 
     fun navigation(view: View) {
@@ -73,15 +86,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 //        Observable.concat(list).subscribe(mySubscriber)
-
-
-        list.reduce { t1, t2 ->
-            Observable.just(t1.blockingFirst() + t2.blockingFirst())
-        }.subscribe(Consumer {
-            Log.e(TAG, "onNext.................$it")
-        }, Consumer {
-            Log.e(TAG, "onError.....................")
-        })
 
     }
 
