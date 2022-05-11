@@ -13,16 +13,22 @@ interface Person {
  */
 class Owner(var mediator: Mediator) : Person {
     override fun contract(message: String) {
-        mediator.contract()
+        mediator.contract(message, this)
     }
 
+    fun receiveMessage(message: String) {
+        println("房主收到消息:$message")
+    }
 }
 
-class Tenant(mediator: Mediator) : Person {
+class Tenant(var mediator: Mediator) : Person {
     override fun contract(message: String) {
-        TODO("Not yet implemented")
+        mediator.contract(message, this)
     }
 
+    fun receiveMessage(message: String) {
+        println("租客收到消息:$message")
+    }
 }
 
 
@@ -40,7 +46,9 @@ class MediatorStructure : Mediator() {
     override
     fun contract(message: String, person: Person) {
         if (person is Owner) {
-
+            tenant?.receiveMessage(message)
+        } else if (person is Tenant) {
+            owner?.receiveMessage(message)
         }
     }
 
