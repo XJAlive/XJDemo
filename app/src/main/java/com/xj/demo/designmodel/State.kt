@@ -1,9 +1,7 @@
 package com.xj.demo.designmodel
 
 interface UserState {
-
     fun order()
-
 }
 
 class LoginState : UserState {
