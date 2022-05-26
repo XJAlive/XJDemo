@@ -6,12 +6,14 @@ import androidx.lifecycle.LifecycleOwner
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Predicate
+import io.reactivex.schedulers.Schedulers
 
 fun main() {
-    RxUtils().bind()
+    RxUtils().threadExecute()
 }
 
 class RxUtils {
@@ -59,6 +61,39 @@ class RxUtils {
                 Log.d(TAG, "对Complete事件作出响应")
             }
         })
+
+
+
     }
+
+    @SuppressLint("CheckResult")
+    fun createObservable() {
+        val observable = object : Observable<String>() {
+            override fun subscribeActual(observer: Observer<in String>?) {
+                observer?.onNext("123")
+                observer?.onComplete()
+            }
+        }
+
+        Observable.create(ObservableOnSubscribe<String> {
+            it.onNext("123")
+            it.onComplete()
+        })
+    }
+
+    @SuppressLint("CheckResult")
+    fun threadExecute(){
+        Observable.just("1")
+            .map {
+                println("step 0 线程" + Thread.currentThread())
+            }
+            .subscribeOn(Schedulers.computation())
+            .map {
+                println("step 1 线程" + Thread.currentThread())
+            }.subscribe {
+                println("step 2 线程" + Thread.currentThread())
+            }
+    }
+
 
 }

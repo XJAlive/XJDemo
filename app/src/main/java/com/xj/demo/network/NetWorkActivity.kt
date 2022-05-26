@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.xj.demo.R
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -72,7 +74,15 @@ class NetWorkActivity : AppCompatActivity() {
             Log.i("xj", "当前线程:{${Thread.currentThread()}}正在执行第${count}个任务")
             Thread.sleep(30000)
         }
+    }
 
+    fun requestData(view: View) {
+        executors.execute {
+            val request = Request.Builder().url("https://www.wanandroid.com/banner/json").build()
+            val call = OkHttpClient.Builder().build().newCall(request)
+            val response = call.execute()
+            Log.i("xj", "接口返回： $response")
+        }
     }
 
 
