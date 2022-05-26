@@ -87,7 +87,7 @@ class RxUtils {
             .map {
                 println("step 0 线程" + Thread.currentThread())
             }
-            .subscribeOn(Schedulers.computation())
+//            .subscribeOn(Schedulers.computation())
             .map {
                 println("step 1 线程" + Thread.currentThread())
             }.subscribe {
