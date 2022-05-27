@@ -26,7 +26,8 @@ class RxUtils {
     fun bind() {
 
         val lifecycleOwner: LifecycleOwner? = null
-        Observable.just(1).`as`(AutoDispose.autoDisposable<Int>(AndroidLifecycleScopeProvider.from(lifecycleOwner!!)))
+        Observable.just(1)
+            .`as`(AutoDispose.autoDisposable<Int>(AndroidLifecycleScopeProvider.from(lifecycleOwner!!)))
 
         Observable.create<Int> { emitter -> // 1. 发送5个事件
             emitter.onNext(1)
@@ -63,7 +64,6 @@ class RxUtils {
         })
 
 
-
     }
 
     @SuppressLint("CheckResult")
@@ -74,25 +74,42 @@ class RxUtils {
                 observer?.onComplete()
             }
         }
+    }
 
+    @SuppressLint("CheckResult")
+    fun threadExecute() {
         Observable.create(ObservableOnSubscribe<String> {
             it.onNext("123")
             it.onComplete()
         })
-    }
-
-    @SuppressLint("CheckResult")
-    fun threadExecute(){
-        Observable.just("1")
             .map {
                 println("step 0 线程" + Thread.currentThread())
+                "0"
             }
-//            .subscribeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
+            .map {
+                println("step 0 线程" + Thread.currentThread())
+                "0"
+            }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.single())
             .map {
                 println("step 1 线程" + Thread.currentThread())
-            }.subscribe {
-                println("step 2 线程" + Thread.currentThread())
-            }
+                "1"
+            }.subscribe(object : Observer<String> {
+                override fun onSubscribe(d: Disposable) {
+                    Log.i("xj", "回调onSubscribe")
+                }
+
+                override fun onNext(t: String) {
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 
 
