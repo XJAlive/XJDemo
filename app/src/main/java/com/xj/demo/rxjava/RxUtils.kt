@@ -11,6 +11,8 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 fun main() {
     RxUtils().threadExecute()
@@ -78,38 +80,49 @@ class RxUtils {
 
     @SuppressLint("CheckResult")
     fun threadExecute() {
-        Observable.create(ObservableOnSubscribe<String> {
-            it.onNext("123")
-            it.onComplete()
-        })
-            .map {
-                println("step 0 线程" + Thread.currentThread())
-                "0"
-            }
-            .subscribeOn(Schedulers.io())
-            .map {
-                println("step 0 线程" + Thread.currentThread())
-                "0"
-            }
-            .subscribeOn(Schedulers.computation())
-            .observeOn(Schedulers.single())
-            .map {
-                println("step 1 线程" + Thread.currentThread())
-                "1"
-            }.subscribe(object : Observer<String> {
-                override fun onSubscribe(d: Disposable) {
-                    Log.i("xj", "回调onSubscribe")
-                }
+//        Observable.create(ObservableOnSubscribe<String> {
+//            it.onNext("123")
+//            it.onComplete()
+//        })
+//            .map {
+//                println("step 0 线程" + Thread.currentThread())
+//                "0"
+//            }
+//            .subscribeOn(Schedulers.io())
+//            .map {
+//                println("step 0 线程" + Thread.currentThread())
+//                "0"
+//            }
+//            .subscribeOn(Schedulers.computation())
+//            .observeOn(Schedulers.single())
+//            .map {
+//                println("step 1 线程" + Thread.currentThread())
+//                "1"
+//            }.subscribe(object : Observer<String> {
+//                override fun onSubscribe(d: Disposable) {
+//                    Log.i("xj", "回调onSubscribe")
+//                }
+//
+//                override fun onNext(t: String) {
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                }
+//
+//                override fun onComplete() {
+//                }
+//            })
+//
+        val behavior: BehaviorSubject<String>? = null
+        behavior?.publish()
 
-                override fun onNext(t: String) {
-                }
+        var i = 0
+        val connectableObservable = Observable.interval(1, TimeUnit.SECONDS).map { i++ }.publish()
+        connectableObservable.connect()
 
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onComplete() {
-                }
-            })
+        connectableObservable.subscribe {
+            Log.i("xj", "收到数据:$it")
+        }
     }
 
 
