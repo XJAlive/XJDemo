@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.xj.demo.BannerItem
+import com.xj.demo.BizResult
 import com.xj.demo.R
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
@@ -14,7 +16,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Runnable
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.*
@@ -38,9 +39,10 @@ class NetWorkActivity : AppCompatActivity() {
         rejectedExecutionHandler
     )
 
-    private val okHttpClient = OkHttpClient.Builder().sslSocketFactory(SSLConfig.DEFAULT_SSL_SOCKET_FACTORY,
-        (SSLConfig.DEFAULT_SSL_SOCKET_FACTORY as SSLConfig.DefaultSSLSocketFactory).trustManagers)
-        .build()
+    private val okHttpClient =
+        OkHttpClient.Builder().sslSocketFactory(SSLConfig.DEFAULT_SSL_SOCKET_FACTORY,
+            (SSLConfig.DEFAULT_SSL_SOCKET_FACTORY as SSLConfig.DefaultSSLSocketFactory).trustManagers)
+            .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,18 +107,24 @@ class NetWorkActivity : AppCompatActivity() {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
-        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
             try {
                 val deferred = retrofit.create(NetWorkServiceApi::class.java).getBannerAsync()
-                val result = deferred.await()
-                Log.i("xj", "请求完成,result=$result")
+                val remoteData = deferred.await()
+                val localData = getLocalData()
+                Log.i("xj", "请求完成,result=$remoteData")
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
             }
+
         }
-        val str: String
         Log.i("xj", "请求开始")
+    }
+
+
+    private suspend fun getLocalData(): BizResult<List<BannerItem>> {
+        return BizResult(listOf(BannerItem("本地数据")), 0, "")
     }
 
 }
