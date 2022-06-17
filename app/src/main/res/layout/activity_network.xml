@@ -25,4 +25,10 @@
         android:text="网络请求"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:onClick="retrofitRequest"
+        android:text="测试协程请求"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.xj.demo.R
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.lang.Runnable
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.*
@@ -31,6 +37,10 @@ class NetWorkActivity : AppCompatActivity() {
         Executors.defaultThreadFactory(),
         rejectedExecutionHandler
     )
+
+    private val okHttpClient = OkHttpClient.Builder().sslSocketFactory(SSLConfig.DEFAULT_SSL_SOCKET_FACTORY,
+        (SSLConfig.DEFAULT_SSL_SOCKET_FACTORY as SSLConfig.DefaultSSLSocketFactory).trustManagers)
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +95,29 @@ class NetWorkActivity : AppCompatActivity() {
         }
     }
 
+
+    fun retrofitRequest(view: View) {
+        val baseUrl = "https://www.wanandroid.com"
+        val retrofit =
+            Retrofit.Builder().baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .build()
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
+            try {
+                val deferred = retrofit.create(NetWorkServiceApi::class.java).getBannerAsync()
+                val result = deferred.await()
+                Log.i("xj", "请求完成,result=$result")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+            }
+        }
+        val str: String
+        Log.i("xj", "请求开始")
+    }
 
 }
 
