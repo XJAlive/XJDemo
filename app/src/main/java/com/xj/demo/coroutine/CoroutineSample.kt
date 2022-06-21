@@ -1,6 +1,8 @@
 package com.xj.demo.coroutine
 
 import kotlinx.coroutines.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class CoroutineSample {
 
@@ -9,12 +11,10 @@ class CoroutineSample {
             try {
                 val data1 = getLocalData()
                 val data2 = getRemoteData()
-
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
             }
-
         }
     }
 
@@ -25,5 +25,6 @@ class CoroutineSample {
     private suspend fun getRemoteData(): String {
         return "远程数据"
     }
+
 }
 

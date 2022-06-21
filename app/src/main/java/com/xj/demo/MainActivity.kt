@@ -150,7 +150,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun rxJava(view: View?) {
-        RxUtils().threadExecute()
+//        RxUtils().threadExecute()
+        RxUtils().missingStrategy()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

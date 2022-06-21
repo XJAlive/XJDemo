@@ -107,21 +107,20 @@ class NetWorkActivity : AppCompatActivity() {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
-        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
             try {
-                val deferred = retrofit.create(NetWorkServiceApi::class.java).getBannerAsync()
-                val remoteData = deferred.await()
-                val localData = getLocalData()
+//                val deferred = retrofit.create(NetWorkServiceApi::class.java).getBannerAsync()
+//                val remoteData = deferred.await()
+//                val localData = getLocalData()
+                val remoteData = retrofit.create(NetWorkServiceApi::class.java).getBannerSuspend()
                 Log.i("xj", "请求完成,result=$remoteData")
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
             }
-
         }
         Log.i("xj", "请求开始")
     }
-
 
     private suspend fun getLocalData(): BizResult<List<BannerItem>> {
         return BizResult(listOf(BannerItem("本地数据")), 0, "")

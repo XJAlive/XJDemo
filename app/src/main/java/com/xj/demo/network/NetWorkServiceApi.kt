@@ -8,6 +8,9 @@ import retrofit2.http.GET
 interface NetWorkServiceApi {
 
     @GET("banner/json")
-    fun getBannerAsync():Deferred<BizResult<List<BannerItem>>>
+    fun getBannerAsync(): Deferred<BizResult<List<BannerItem>>>
+
+    @GET("banner/json")
+    suspend fun getBannerSuspend(): BizResult<List<BannerItem>>
 
 }

@@ -5,14 +5,15 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Observer
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import org.reactivestreams.Subscription
 import java.util.concurrent.TimeUnit
+
 
 fun main() {
     RxUtils().threadExecute()
@@ -125,5 +126,37 @@ class RxUtils {
         }
     }
 
+
+    fun missingStrategy() {
+        Flowable.create<Int>({ emitter ->
+            for (i in 0..128) {
+                emitter.onNext(i)
+            }
+        }, BackpressureStrategy.ERROR)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : FlowableSubscriber<Int> {
+                override fun onSubscribe(s: Subscription) {
+                    s.request(Long.MAX_VALUE)
+                }
+
+                override fun onNext(integer: Int) {
+                    try {
+                        Thread.sleep(1000)
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
+                    Log.e("xj", "onNext=$integer")
+                }
+
+                override fun onError(t: Throwable) {
+                    t.printStackTrace()
+                }
+
+                override fun onComplete() {}
+            })
+
+
+    }
 
 }
