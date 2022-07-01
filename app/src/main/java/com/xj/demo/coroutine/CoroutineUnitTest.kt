@@ -9,6 +9,8 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.Executors
+import kotlin.concurrent.thread
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.system.measureTimeMillis
@@ -32,9 +34,9 @@ import kotlin.system.measureTimeMillis
 //}
 
 suspend fun main() {
-    val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-        log("使用内部handler处理异常")
-    }
+//    val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+//        log("使用内部handler处理异常")
+//    }
 //    val deferred = GlobalScope.async<Int>(exceptionHandler) {
 //        throw ArithmeticException()
 //    }
@@ -45,15 +47,25 @@ suspend fun main() {
 //        log("2. $e")
 //    }
 
-    val deferred = GlobalScope.async() {
-        throw ArithmeticException()
-    }
-    try {
-        deferred.join()
-        log(1)
-    } catch (e: Exception) {
-        log("2. $e")
-    }
+//    val deferred = GlobalScope.async() {
+//        delay(1000)
+//        log("2 + ${System.currentTimeMillis()}")
+//    }
+//    try {
+//        deferred.await()
+//        deferred.join()
+//        log("1 + ${System.currentTimeMillis()}")
+//    } catch (e: Exception) {
+//        log("报错了 $e")
+//    }
+
+    log(1)
+    log(returnSuspended())
+    log(2)
+    delay(1000)
+    log(3)
+    log(returnImmediately())
+    log(4)
 
     //launch启动, 不传入CoroutineExceptionHandler, 使用join(),抛出异常,无法try-catch,交由父协程Handler处理
     //launch启动，传入CoroutineExceptionHandler,   使用join(),不抛出异常，内部Handler处理
@@ -62,6 +74,31 @@ suspend fun main() {
     //async启动， 不传入CoroutineExceptionHandler  使用join(), 忽略异常，不报错
     //async启动， 传入CoroutineExceptionHandler，  使用join(), 忽略异常，不报错
 
+}
+
+suspend fun hello() = suspendCancellableCoroutine<Int>{
+        continuation ->
+    log(1)
+    thread {
+        Thread.sleep(1000)
+        log(2)
+        continuation.resume(1024)
+    }
+    log(3)
+    COROUTINE_SUSPENDED
+}
+
+suspend fun returnSuspended() = suspendCancellableCoroutine<String>{
+        continuation ->
+    thread {
+        Thread.sleep(1000)
+        continuation.resume("Return suspended.")
+    }
+    COROUTINE_SUSPENDED
+}
+
+suspend fun returnImmediately() = suspendCancellableCoroutine<String>{
+    it.resume("Return immediately.")
 }
 
 
@@ -140,8 +177,8 @@ suspend fun getAd() = suspendCoroutine<Boolean> {
     it.resume(false)
 }
 
-fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
-fun log(msg: Int) = println("[${Thread.currentThread().name}] $msg")
+fun log(msg: String) = println("[${Thread.currentThread().name}, ${System.currentTimeMillis()}] $msg")
+fun log(msg: Int) = println("[${Thread.currentThread().name} , ${System.currentTimeMillis()}] $msg")
 
 
 //fun main() = runBlocking<Unit> {

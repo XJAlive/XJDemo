@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.GsonUtils
+import com.google.gson.reflect.TypeToken
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.xj.demo.BannerItem
 import com.xj.demo.BizResult
 import com.xj.demo.R
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +21,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.*
+import kotlin.coroutines.resumeWithException
 
 /**
  * Created by xiej on 2021/3/1
@@ -90,10 +93,48 @@ class NetWorkActivity : AppCompatActivity() {
 
     fun requestData(view: View) {
         executors.execute {
-            val request = Request.Builder().url("https://www.wanandroid.com/banner/json").build()
-            val call = OkHttpClient.Builder().build().newCall(request)
-            val response = call.execute()
-            Log.i("xj", "接口返回： $response")
+            val request =
+                Request.Builder().get().url("https://www.wanandroid.com/banner/json").build()
+            val call = okHttpClient.newCall(request)
+//            val response = call.execute()
+//            Log.i("xj", "接口返回： ${response.body.toString()}")
+            val dispatcher = CoroutineExceptionHandler { coroutineContext, throwable ->
+                Log.e("xj","协程报错了")
+            }
+
+            try {
+                val job1 = MainScope().launch {
+
+                    val result = suspendCancellableCoroutine<String> { continuation ->
+                        continuation.invokeOnCancellation {
+                            Log.w("xj", "协程取消回调,同时取消call")
+                            call.cancel()
+                        }
+
+                        call.enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                continuation.resumeWithException(e)
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val turnsType =
+                                    object : TypeToken<BizResult<List<BannerItem>>>() {}.type
+                                val str = response.body?.string().orEmpty()
+                                continuation.resumeWith(Result.success(str))
+                                val turns =
+                                    GsonUtils.fromJson<BizResult<List<BannerItem>>>(str,
+                                        turnsType)
+//                            Log.i("xj", "接口返回： $turns")
+                            }
+                        })
+                    }
+                    Log.i("xj", "接口返回： $result")
+
+                }//launch
+            }catch (e:Exception){
+                Log.e("xj","协程报错了")
+            }
+
         }
     }
 

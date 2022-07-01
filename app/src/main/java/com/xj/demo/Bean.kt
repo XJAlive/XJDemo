@@ -5,7 +5,7 @@ class Data {
     val age: String? = null
 }
 
-data class  BizResult<T>(var data: T ?= null, val errorCode:Int, val errorMsg:String)
+data class BizResult<T>(var data: T? = null, val errorCode: Int, val errorMsg: String)
 
 data class BannerItem(
     val desc: String? = null,
@@ -15,5 +15,5 @@ data class BannerItem(
     val order: Int? = null,
     val title: String? = null,
     val type: Int? = null,
-    val url: String? = null
+    val url: String? = null,
 )

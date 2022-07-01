@@ -90,4 +90,10 @@
         android:onClick="rxJava"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="测试协程"
+        android:onClick="coroutinePage"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

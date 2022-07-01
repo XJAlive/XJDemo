@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
+import com.xj.demo.coroutine.CoroutineActivity
 import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService
@@ -152,6 +153,10 @@ class MainActivity : AppCompatActivity() {
     fun rxJava(view: View?) {
 //        RxUtils().threadExecute()
         RxUtils().missingStrategy()
+    }
+
+    fun coroutinePage(view: View){
+        startActivity(Intent(this, CoroutineActivity::class.java))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
