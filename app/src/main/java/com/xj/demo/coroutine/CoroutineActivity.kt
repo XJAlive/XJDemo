@@ -3,11 +3,9 @@ package com.xj.demo.coroutine
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.xj.demo.R
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -40,9 +38,6 @@ class CoroutineActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             flow {
-                withContext(Dispatchers.Main) {
-                    Log.w("xj", "${Thread.currentThread().name}, 强行切换线程")
-                }
                 Log.i("xj", "${Thread.currentThread().name}, 发射值$1")
                 this.emit(1)
             }.flowOn(Dispatchers.IO).map {

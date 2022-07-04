@@ -59,13 +59,28 @@ suspend fun main() {
 //        log("报错了 $e")
 //    }
 
-    log(1)
-    log(returnSuspended())
-    log(2)
-    delay(1000)
-    log(3)
-    log(returnImmediately())
-    log(4)
+//    log(1)
+//    log(returnSuspended())
+//    log(2)
+//    delay(1000)
+//    log(3)
+//    log(returnImmediately())
+//    log(4)
+
+    val flow = flowOf(1, 2, 3).onEach { delay(50) }
+    val flow2 = flowOf("a", "b", "c", "d").onEach { delay(150) }
+    val startTime = System.currentTimeMillis() // 记录开始的时间
+    flow.zip(flow2) { i, s -> i.toString() + s }.collect {
+        // Will print "1a 2b 3c"
+        log("$it 耗时 ${System.currentTimeMillis() - startTime} ms")
+    }
+
+    flow {
+        emit(1)
+    }.shareIn(MainScope(), SharingStarted.Lazily).collect {
+
+    }
+
 
     //launch启动, 不传入CoroutineExceptionHandler, 使用join(),抛出异常,无法try-catch,交由父协程Handler处理
     //launch启动，传入CoroutineExceptionHandler,   使用join(),不抛出异常，内部Handler处理
@@ -76,8 +91,7 @@ suspend fun main() {
 
 }
 
-suspend fun hello() = suspendCancellableCoroutine<Int>{
-        continuation ->
+suspend fun hello() = suspendCancellableCoroutine<Int> { continuation ->
     log(1)
     thread {
         Thread.sleep(1000)
@@ -88,8 +102,7 @@ suspend fun hello() = suspendCancellableCoroutine<Int>{
     COROUTINE_SUSPENDED
 }
 
-suspend fun returnSuspended() = suspendCancellableCoroutine<String>{
-        continuation ->
+suspend fun returnSuspended() = suspendCancellableCoroutine<String> { continuation ->
     thread {
         Thread.sleep(1000)
         continuation.resume("Return suspended.")
@@ -97,7 +110,7 @@ suspend fun returnSuspended() = suspendCancellableCoroutine<String>{
     COROUTINE_SUSPENDED
 }
 
-suspend fun returnImmediately() = suspendCancellableCoroutine<String>{
+suspend fun returnImmediately() = suspendCancellableCoroutine<String> {
     it.resume("Return immediately.")
 }
 
@@ -105,7 +118,6 @@ suspend fun returnImmediately() = suspendCancellableCoroutine<String>{
 suspend fun getUserCoroutine() = suspendCoroutine<String> {
     it.resume("xj")
 }
-
 
 
 //fun main() = runBlocking {
@@ -177,7 +189,9 @@ suspend fun getAd() = suspendCoroutine<Boolean> {
     it.resume(false)
 }
 
-fun log(msg: String) = println("[${Thread.currentThread().name}, ${System.currentTimeMillis()}] $msg")
+fun log(msg: String) =
+    println("[${Thread.currentThread().name}, ${System.currentTimeMillis()}] $msg")
+
 fun log(msg: Int) = println("[${Thread.currentThread().name} , ${System.currentTimeMillis()}] $msg")
 
 
