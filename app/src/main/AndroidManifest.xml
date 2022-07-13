@@ -64,6 +64,8 @@
 
         <activity android:name=".coroutine.CoroutineActivity" />
 
+        <activity android:name=".view.TouchEventActivity"/>
+
         <activity
             android:name=".binder.BinderClientActivity"
             android:process=":other" />

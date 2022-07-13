@@ -14,6 +14,7 @@ import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService
 import com.xj.demo.thread.ThreadActivity
+import com.xj.demo.view.TouchEventActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -155,8 +156,16 @@ class MainActivity : AppCompatActivity() {
         RxUtils().missingStrategy()
     }
 
+    fun jsBridge(view: View?) {
+        startActivity(Intent(this, WebActivity::class.java))
+    }
+
     fun coroutinePage(view: View){
         startActivity(Intent(this, CoroutineActivity::class.java))
+    }
+
+    fun touchEvent(view: View) {
+        startActivity(Intent(this, TouchEventActivity::class.java))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
