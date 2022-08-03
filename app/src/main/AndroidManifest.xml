@@ -64,7 +64,9 @@
 
         <activity android:name=".coroutine.CoroutineActivity" />
 
-        <activity android:name=".view.TouchEventActivity"/>
+        <activity android:name=".view.TouchEventActivity" />
+
+        <activity android:name=".mvvn.DataBindingtActivity" />
 
         <activity
             android:name=".binder.BinderClientActivity"

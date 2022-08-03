@@ -5,11 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.blankj.utilcode.util.ToastUtils
 import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
 import com.xj.demo.coroutine.CoroutineActivity
+import com.xj.demo.mvvn.DataBindingtActivity
+import com.xj.demo.mvvn.ReportEventViewModel
 import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService
@@ -31,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "xj"
     var count = 0
+
+    private val viewModel: ReportEventViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,8 +154,22 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, ThreadActivity::class.java))
     }
 
+    @SuppressLint("LogConditional")
     fun sendEvent(view: View?) {
-        EventBus.getDefault().post(MessageEvent())
+//        EventBus.getDefault().post(MessageEvent())
+
+        //获取远程数据
+        viewModel.fetchData()
+
+        val reportEventModel = ViewModelProvider(this).get<ReportEventViewModel>()
+        reportEventModel.reportEvent.observe(this) {
+            Log.i("xj", "reportEventModel--->value = $it")
+        }
+
+        this.viewModel.reportEvent.observe(this) {
+            Log.i("xj", "reportEvent1--->value = $it")
+        }
+
     }
 
     fun rxJava(view: View?) {
@@ -160,12 +181,16 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, WebActivity::class.java))
     }
 
-    fun coroutinePage(view: View){
+    fun coroutinePage(view: View) {
         startActivity(Intent(this, CoroutineActivity::class.java))
     }
 
     fun touchEvent(view: View) {
         startActivity(Intent(this, TouchEventActivity::class.java))
+    }
+
+    fun toBinding(view: View) {
+        startActivity(Intent(this, DataBindingtActivity::class.java))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
