@@ -1,14 +1,15 @@
 package com.xj.demo.mvvn
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
-import com.xj.demo.BR
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import com.blankj.utilcode.util.ToastUtils
 import com.xj.demo.R
-import com.xj.demo.Student
 import com.xj.demo.databinding.ActivityUserBinding
 
 /**
@@ -16,16 +17,19 @@ import com.xj.demo.databinding.ActivityUserBinding
  */
 class DataBindingtActivity : AppCompatActivity() {
 
-    private lateinit var contentViewBinding: ActivityUserBinding
+    private lateinit var viewBinding: ActivityUserBinding
 
-    private val studentViewModel: DataViewModel by viewModels()
+//    private val studentViewModel: DataViewModel by viewModels()
 
+    private val viewModel: ReportEventViewModel by viewModels()
+
+    @SuppressLint("LogConditional")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        contentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_user)
-        contentViewBinding.lifecycleOwner = this
+        viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_user)
+        viewBinding.lifecycleOwner = this
 
-        val student = Student("xiej", "12")
+//        val student = Student("xiej", "12")
 
 //        studentViewModel.studentLiveData.observe(this) {
 //            contentViewBinding.user = it
@@ -45,10 +49,27 @@ class DataBindingtActivity : AppCompatActivity() {
 //                }
 //            }
 //        })
-        contentViewBinding.user = student
-        contentViewBinding.btnChange.setOnClickListener {
-            contentViewBinding.tvContent.text = "xiaoming"
-            Log.i("xj", "name=${student.name}")
+//        contentViewBinding.user = student
+//        contentViewBinding.btnChange.setOnClickListener {
+//            contentViewBinding.tvContent.text = "xiaoming"
+//            Log.i("xj", "name=${student.name}")
+//        }
+
+        val reportEventModel = ViewModelProvider(this).get<ReportEventViewModel>()
+        reportEventModel.reportEvent.observe(this) {
+            Log.i("xj", "reportEventModel--->value = $it")
+        }
+
+        viewModel.reportEvent.wrapLiveData()
+            .onSuccess {
+                viewBinding.tvContent.text = it.orEmpty()
+            }.onError { _, msg ->
+                viewBinding.tvContent.text = ""
+                ToastUtils.showShort(msg)
+            }.observe(this)
+
+        viewBinding.btnChange.setOnClickListener {
+            viewModel.fetchData()
         }
 
     }
