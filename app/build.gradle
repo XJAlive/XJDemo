@@ -45,7 +45,7 @@ dependencies {
     //rx系列
     api 'io.reactivex.rxjava2:rxjava:2.2.6'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    api 'com.tbruyelle.rxpermissions2:rxpermissions:android.permission.INTERNET0.9.5@aar'
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
     api ('com.jakewharton.rxbinding2:rxbinding:2.1.1'){
         exclude group: "io.reactivex.rxjava2"
@@ -55,4 +55,11 @@ dependencies {
     api('com.uber.autodispose:autodispose-android-archcomponents:1.4.0')
 
     api 'com.blankj:utilcodex:1.31.0'
+
+    api 'com.squareup.retrofit2:retrofit:2.7.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.7.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.7.1'
+
+    api 'com.github.bumptech.glide:glide:4.13.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 }

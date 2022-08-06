@@ -3,8 +3,16 @@ package com.xj.demo.network
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.xj.demo.R
+import com.xj.demo.bean.Banner
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -17,17 +25,17 @@ import java.util.concurrent.*
 class NetWorkActivity : AppCompatActivity() {
 
     private val rejectedExecutionHandler =
-        RejectedExecutionHandler { r, executor -> Log.w("xj", "线程池满了，执行拒绝策略任务+1") }
+            RejectedExecutionHandler { r, executor -> Log.w("xj", "线程池满了，执行拒绝策略任务+1") }
 
     //线程池
     private val executors = ThreadPoolExecutor(
-        6,
-        10,
-        0,
-        TimeUnit.SECONDS,
-        LinkedBlockingQueue<Runnable>(2),
-        Executors.defaultThreadFactory(),
-        rejectedExecutionHandler
+            6,
+            10,
+            0,
+            TimeUnit.SECONDS,
+            LinkedBlockingQueue<Runnable>(2),
+            Executors.defaultThreadFactory(),
+            rejectedExecutionHandler
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +81,31 @@ class NetWorkActivity : AppCompatActivity() {
             Thread.sleep(30000)
         }
 
+    }
+
+
+    class Result<T> {
+        var data: T? = null
+        var errorCode: Int = 0
+        var errorMsg: String? = null
+    }
+
+    interface IRequest {
+        @GET("https://www.wanandroid.com/banner/json")
+        fun getResult(): Call<Result<Banner>>
+    }
+
+    fun retrofitRequest() {
+        val retrofit = Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val result = retrofit.create(IRequest::class.java).getResult()
+    }
+
+    fun loadImage() {
+        val view: ImageView? = null
+        Glide.with(this).load("").into(view!!)
     }
 
 
