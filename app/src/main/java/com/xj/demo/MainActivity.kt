@@ -6,16 +6,24 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.ToastUtils
 import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
+import com.xj.demo.coroutine.CoroutineActivity
+import com.xj.demo.mvvn.DataBindingtActivity
 import com.xj.demo.network.NetWorkActivity
+import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService
 import com.xj.demo.thread.ThreadActivity
+import com.xj.demo.view.TouchEventActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+
 
 /**
  * Created by xiej on 2021/3/1
@@ -40,6 +48,18 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         Log.e("xj", "调用onRestoreInstanceState, ${savedInstanceState.getInt("key")}")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+        val list = arrayListOf<String>()
+        list.take(4)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 
     fun navigation(view: View) {
@@ -127,4 +147,39 @@ class MainActivity : AppCompatActivity() {
     fun startThread(view: View?) {
         startActivity(Intent(this, ThreadActivity::class.java))
     }
+
+    @SuppressLint("LogConditional")
+    fun sendEvent(view: View?) {
+        EventBus.getDefault().post(MessageEvent())
+    }
+
+    fun rxJava(view: View?) {
+//        RxUtils().threadExecute()
+        RxUtils().missingStrategy()
+    }
+
+    fun jsBridge(view: View?) {
+        startActivity(Intent(this, WebActivity::class.java))
+    }
+
+    fun coroutinePage(view: View) {
+        startActivity(Intent(this, CoroutineActivity::class.java))
+    }
+
+    fun touchEvent(view: View) {
+        startActivity(Intent(this, TouchEventActivity::class.java))
+    }
+
+    fun toBinding(view: View) {
+        startActivity(Intent(this, DataBindingtActivity::class.java))
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: MessageEvent?) {
+        ToastUtils.showShort("收到EventBus事件")
+    }
+}
+
+class MessageEvent {
+
 }

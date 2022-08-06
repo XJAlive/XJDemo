@@ -3,21 +3,25 @@ package com.xj.demo.network
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import com.blankj.utilcode.util.GsonUtils
+import com.google.gson.reflect.TypeToken
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.xj.demo.BannerItem
+import com.xj.demo.BizResult
 import com.xj.demo.R
-import com.xj.demo.bean.Banner
-import retrofit2.Call
+import kotlinx.coroutines.*
+import okhttp3.*
+import okio.IOException
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.*
+import kotlin.coroutines.resumeWithException
 
 /**
  * Created by xiej on 2021/3/1
@@ -25,18 +29,23 @@ import java.util.concurrent.*
 class NetWorkActivity : AppCompatActivity() {
 
     private val rejectedExecutionHandler =
-            RejectedExecutionHandler { r, executor -> Log.w("xj", "线程池满了，执行拒绝策略任务+1") }
+        RejectedExecutionHandler { r, executor -> Log.w("xj", "线程池满了，执行拒绝策略任务+1") }
 
     //线程池
     private val executors = ThreadPoolExecutor(
-            6,
-            10,
-            0,
-            TimeUnit.SECONDS,
-            LinkedBlockingQueue<Runnable>(2),
-            Executors.defaultThreadFactory(),
-            rejectedExecutionHandler
+        6,
+        10,
+        0,
+        TimeUnit.SECONDS,
+        LinkedBlockingQueue<Runnable>(2),
+        Executors.defaultThreadFactory(),
+        rejectedExecutionHandler
     )
+
+    private val okHttpClient =
+        OkHttpClient.Builder().sslSocketFactory(SSLConfig.DEFAULT_SSL_SOCKET_FACTORY,
+            (SSLConfig.DEFAULT_SSL_SOCKET_FACTORY as SSLConfig.DefaultSSLSocketFactory).trustManagers)
+            .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,34 +89,83 @@ class NetWorkActivity : AppCompatActivity() {
             Log.i("xj", "当前线程:{${Thread.currentThread()}}正在执行第${count}个任务")
             Thread.sleep(30000)
         }
+    }
 
+    fun requestData(view: View) {
+        executors.execute {
+            val request =
+                Request.Builder().get().url("https://www.wanandroid.com/banner/json").build()
+            val call = okHttpClient.newCall(request)
+//            val response = call.execute()
+//            Log.i("xj", "接口返回： ${response.body.toString()}")
+            val dispatcher = CoroutineExceptionHandler { coroutineContext, throwable ->
+                Log.e("xj","协程报错了")
+            }
+
+            try {
+                val job1 = MainScope().launch {
+
+                    val result = suspendCancellableCoroutine<String> { continuation ->
+                        continuation.invokeOnCancellation {
+                            Log.w("xj", "协程取消回调,同时取消call")
+                            call.cancel()
+                        }
+
+                        call.enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                continuation.resumeWithException(e)
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val turnsType =
+                                    object : TypeToken<BizResult<List<BannerItem>>>() {}.type
+                                val str = response.body?.string().orEmpty()
+                                continuation.resumeWith(Result.success(str))
+                                val turns =
+                                    GsonUtils.fromJson<BizResult<List<BannerItem>>>(str,
+                                        turnsType)
+//                            Log.i("xj", "接口返回： $turns")
+                            }
+                        })
+                    }
+                    Log.i("xj", "接口返回： $result")
+
+                }//launch
+            }catch (e:Exception){
+                Log.e("xj","协程报错了")
+            }
+
+        }
     }
 
 
-    class Result<T> {
-        var data: T? = null
-        var errorCode: Int = 0
-        var errorMsg: String? = null
-    }
-
-    interface IRequest {
-        @GET("https://www.wanandroid.com/banner/json")
-        fun getResult(): Call<Result<Banner>>
-    }
-
-    fun retrofitRequest() {
-        val retrofit = Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+    fun retrofitRequest(view: View) {
+        val baseUrl = "https://www.wanandroid.com"
+        val retrofit =
+            Retrofit.Builder().baseUrl(baseUrl)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
-        val result = retrofit.create(IRequest::class.java).getResult()
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
+            try {
+//                val deferred = retrofit.create(NetWorkServiceApi::class.java).getBannerAsync()
+//                val remoteData = deferred.await()
+//                val localData = getLocalData()
+                val remoteData = retrofit.create(NetWorkServiceApi::class.java).getBannerSuspend()
+                Log.i("xj", "请求完成,result=$remoteData")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+            }
+        }
+        Log.i("xj", "请求开始")
     }
 
-    fun loadImage() {
-        val view: ImageView? = null
-        Glide.with(this).load("").into(view!!)
+    private suspend fun getLocalData(): BizResult<List<BannerItem>> {
+        return BizResult(listOf(BannerItem("本地数据")), 0, "")
     }
-
 
 }
 

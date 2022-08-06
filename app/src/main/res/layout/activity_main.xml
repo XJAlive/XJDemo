@@ -1,78 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    tools:context=".WebActivity">
-    <Button
-        android:id="@+id/btnClick1"
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="跳转到SecondActivity"
-        android:onClick="navigation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        tools:context=".WebActivity">
+        <Button
+            android:id="@+id/btnClick1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="navigation"
+            android:text="跳转到SecondActivity"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试provider"
-        android:onClick="navigation2Provider"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="navigation2Provider"
+            android:text="测试provider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnClick2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button2"
-        android:onClick="click2"
-        app:layout_constraintTop_toBottomOf="@id/btnClick1" />
+        <Button
+            android:id="@+id/btnClick2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="click2"
+            android:text="button2"
+            app:layout_constraintTop_toBottomOf="@id/btnClick1" />
 
-    <Button
-        android:id="@+id/btnStartService"
-        android:layout_width="wrap_content"
-        android:text="开启服务"
-        app:layout_constraintTop_toBottomOf="@id/btnClick2"
-        android:onClick="start"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnStartService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="start"
+            android:text="开启服务"
+            app:layout_constraintTop_toBottomOf="@id/btnClick2" />
 
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:text="关闭服务"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
-        android:onClick="stop"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="stop"
+            android:text="关闭服务"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:text="测试Intent"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
-        android:onClick="filterAction"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="filterAction"
+            android:text="测试Intent"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:text="测试网络请求"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
-        android:onClick="networkAction"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="networkAction"
+            android:text="测试网络请求"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:text="测试Binder"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
-        android:onClick="startBinder"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startBinder"
+            android:text="测试Binder"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:text="测试多线程场景"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"
-        android:onClick="startThread"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startThread"
+            android:text="测试多线程场景"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
 
-</LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sendEvent"
+            android:text="测试EventBus"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="rxJava"
+            android:text="测试Rxjava"
+            app:layout_constraintTop_toBottomOf="@id/btnStartService" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="coroutinePage"
+            android:text="测试协程" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="jsBridge"
+            android:text="测试JsBridge" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="touchEvent"
+            android:text="测试事件分发" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="toBinding"
+            android:text="测试viewBinding" />
+
+    </LinearLayout>
+</ScrollView>

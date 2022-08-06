@@ -1,0 +1,46 @@
+class ManifestAction implements Action<Task> {
+
+    @Override
+    void execute(Task task) {
+        println("this is action execute!!!")
+    }
+}
+
+
+task step1 {
+    doLast {
+        println(System.currentTimeMillis())
+        Thread.currentThread().sleep(2000)
+        println(System.currentTimeMillis())
+        println("step1 execute!!!")
+    }
+}
+
+
+task step2 {
+//    mustRunAfter("step1")
+
+    doLast {
+        Thread.currentThread().sleep(3000)
+        println("step2 execute!!!")
+    }
+
+    def action = new ManifestAction()
+    doLast action
+}
+
+task customtask(type:MyTask){
+    doFirst {
+        println("doFirst")
+    }
+    doLast {
+        println("doLast")
+    }
+}
+class MyTask extends DefaultTask {
+    @TaskAction
+    def execute() {
+        println("execute")
+    }
+
+}

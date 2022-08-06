@@ -6,29 +6,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".WebActivity">
+
     <Button
         android:id="@+id/btnClick1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="start"
-        android:text="发送请求" />
+        android:onClick="startCoroutine"
+        android:text="开启协程" />
 
     <Button
         android:layout_width="wrap_content"
-        android:onClick="execRunnable"
-        android:text="开始执行任务"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="stopCoroutine"
+        android:text="取消协程" />
 
-    <Button
+    <TextView
+        android:id="@+id/tvContent"
         android:layout_width="wrap_content"
-        android:onClick="requestData"
-        android:text="网络请求"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="结果" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:onClick="retrofitRequest"
-        android:text="测试协程请求"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>
