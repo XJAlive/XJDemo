@@ -1,4 +1,4 @@
-package com.xj.demo.mvvn
+package com.xj.demo.mvvm
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.xj.demo.R
+import com.xj.demo.Student
 import com.xj.demo.databinding.ActivityUserBinding
 import kotlinx.coroutines.launch
 
@@ -29,7 +30,7 @@ class DataBindingtActivity : AppCompatActivity() {
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_user)
         viewBinding.lifecycleOwner = this
 
-//        val student = Student("xiej", "12")
+        val student = Student("xiej", "12")
 
 //        studentViewModel.studentLiveData.observe(this) {
 //            contentViewBinding.user = it

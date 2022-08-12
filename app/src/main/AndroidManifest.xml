@@ -66,7 +66,7 @@
 
         <activity android:name=".view.TouchEventActivity" />
 
-        <activity android:name=".mvvn.DataBindingtActivity" />
+        <activity android:name=".mvvm.DataBindingtActivity" />
 
         <activity
             android:name=".binder.BinderClientActivity"
