@@ -44,30 +44,30 @@ class RealContainer<STATE : UIState, EVENT : UISingleEvent>(var initState: STATE
 /**
  * VM层,处理请求
  */
-class PageViewModel : ViewModel {
+class PageViewModel : ViewModel() {
 
-    val repository = Repository()
+    private val repository = Repository()
 
     /**
      * 保存当前页面所有ui状态
      */
     data class PageUIState(
-        var list: String<String>? = null,
-        var isRefreshing = false,
+        var list: List<String>? = null,
+        var isRefreshing: Boolean = false,
         var currentPage: Int
     ) : UIState
 
     /**
      * 发送的事件
      */
-    class PageSingleEvent : UISingleEvent {
-        class ToastEvent(msg: String) : PageSingleEvent
+    sealed class PageSingleEvent : UISingleEvent {
+        class ToastEvent(msg: String) : PageSingleEvent()
     }
 
     /**
      * 请求数据
      */
-    fun fetchData(): String {
+    fun fetchData() {
         viewModelScope.launch {
             val result = repository.loadDataFromRepo()
             container.updateState {
@@ -82,8 +82,8 @@ class PageViewModel : ViewModel {
         }
     }
 
-
-    private val _container = RealContainer<PageUIState, PageSingleEvent>()
+    private val _container =
+        RealContainer<PageUIState, PageSingleEvent>(PageUIState(emptyList(), false, 0))
     var container: RealContainer<PageUIState, PageSingleEvent> = _container
 }
 
