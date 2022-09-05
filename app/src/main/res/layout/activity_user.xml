@@ -11,7 +11,7 @@
 
         <variable
             name="dataViewModel"
-            type="com.xj.demo.mvvn.DataViewModel" />
+            type="com.xj.demo.mvvm.DataViewModel" />
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

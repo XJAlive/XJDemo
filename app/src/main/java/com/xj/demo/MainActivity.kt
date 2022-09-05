@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
 import com.xj.demo.coroutine.CoroutineActivity
-import com.xj.demo.mvvn.DataBindingtActivity
+import com.xj.demo.mvvm.DataBindingtActivity
 import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService

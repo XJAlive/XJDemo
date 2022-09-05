@@ -1,4 +1,4 @@
-package com.xj.demo.mvvn
+package com.xj.demo.mvvm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.xj.demo.BizResult
 import kotlinx.coroutines.launch
 
-class ReportEventViewModel : ViewModel() {
+class LiveDataViewModel : ViewModel() {
 
     private val _reportEvent = MutableLiveData<BizResult<String>>()
     val reportEvent: LiveData<BizResult<String>> get() = _reportEvent

@@ -1,16 +1,15 @@
-package com.xj.demo.mvvn
+package com.xj.demo.mvvm
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
-import com.blankj.utilcode.util.ToastUtils
+import androidx.lifecycle.lifecycleScope
 import com.xj.demo.R
+import com.xj.demo.Student
 import com.xj.demo.databinding.ActivityUserBinding
+import kotlinx.coroutines.launch
 
 /**
  * Created by xiej on 2021/3/1
@@ -21,7 +20,9 @@ class DataBindingtActivity : AppCompatActivity() {
 
 //    private val studentViewModel: DataViewModel by viewModels()
 
-    private val viewModel: ReportEventViewModel by viewModels()
+    private val viewModel: LiveDataViewModel by viewModels()
+
+    private val mainViewModel: StateFlowViewModel by viewModels()
 
     @SuppressLint("LogConditional")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,7 @@ class DataBindingtActivity : AppCompatActivity() {
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_user)
         viewBinding.lifecycleOwner = this
 
-//        val student = Student("xiej", "12")
+        val student = Student("xiej", "12")
 
 //        studentViewModel.studentLiveData.observe(this) {
 //            contentViewBinding.user = it
@@ -55,21 +56,35 @@ class DataBindingtActivity : AppCompatActivity() {
 //            Log.i("xj", "name=${student.name}")
 //        }
 
-        val reportEventModel = ViewModelProvider(this).get<ReportEventViewModel>()
-        reportEventModel.reportEvent.observe(this) {
-            Log.i("xj", "reportEventModel--->value = $it")
-        }
+//        val reportEventModel = ViewModelProvider(this).get<LiveDataViewModel>()
+//        reportEventModel.reportEvent.observe(this) {
+//            Log.i("xj", "reportEventModel--->value = $it")
+//        }
 
-        viewModel.reportEvent.wrapLiveData()
-            .onSuccess {
-                viewBinding.tvContent.text = it.orEmpty()
-            }.onError { _, msg ->
-                viewBinding.tvContent.text = ""
-                ToastUtils.showShort(msg)
-            }.observe(this)
+//        viewModel.reportEvent.wrapLiveData()
+//            .onSuccess {
+//                viewBinding.tvContent.text = it.orEmpty()
+//            }.onError { _, msg ->
+//                viewBinding.tvContent.text = ""
+//                ToastUtils.showShort(msg)
+//            }.observe(this)
 
         viewBinding.btnChange.setOnClickListener {
-            viewModel.fetchData()
+//            viewModel.fetchData()
+//            mainViewModel.fetchData()
+            mainViewModel.updateSelect("nike")
+        }
+
+//        lifecycleScope.launch {
+//            mainViewModel.select.collect {
+//                viewBinding.tvContent.text = it
+//            }
+//        }
+
+        lifecycleScope.launch {
+            mainViewModel.shoe.collect {
+                viewBinding.tvContent.text = it
+            }
         }
 
     }

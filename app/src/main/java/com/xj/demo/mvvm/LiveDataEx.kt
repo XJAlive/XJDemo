@@ -1,4 +1,4 @@
-package com.xj.demo.mvvn
+package com.xj.demo.mvvm
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
