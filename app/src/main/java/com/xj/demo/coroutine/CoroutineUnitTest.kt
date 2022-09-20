@@ -329,15 +329,6 @@ suspend fun doSomethingUsefulTwo(): Int {
     return 29
 }
 
-class Activity : CoroutineScope by CoroutineScope(Dispatchers.Default) {
-
-    fun onDestroy() {
-        val threadLocal = ThreadLocal<String>()
-        threadLocal.set("1234")
-        cancel()
-    }
-
-}
 
 //private suspend fun getId(): Deferred<String> {
 //    return GlobalScope.async(Dispatchers.IO) {

@@ -26,7 +26,7 @@ class LiveDataViewModel : ViewModel() {
                 val result = Repository().loadDataFromRepo()
                 updateReportEvent(BizResult(result, 0, ""))
             } catch (e: Exception) {
-                updateReportEvent(BizResult("", -1000, "获取数据异常"))
+                updateReportEvent(BizResult("", -1000, e.message ?: "获取数据异常"))
             }
         }
     }

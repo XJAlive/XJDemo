@@ -22,7 +22,9 @@
 
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +33,9 @@
 
         </activity>
 
-        <activity android:name=".SecondActivity">
+        <activity
+            android:name=".SecondActivity"
+            android:exported="true">
             <intent-filter>
                 <!--                <action android:name="android.intent.action.SEND" />-->
 
@@ -42,14 +46,18 @@
 
         <activity android:name=".contentprovider.ProviderActivity" />
 
-        <activity android:name=".activity.Action1Activity">
+        <activity
+            android:name=".activity.Action1Activity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="com.xj.navigate" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.Action2Activity">
+        <activity
+            android:name=".activity.Action2Activity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="com.xj.navigate" />
@@ -69,6 +77,10 @@
         <activity android:name=".mvvm.DataBindingtActivity" />
 
         <activity
+            android:name=".compose.ComposeActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".binder.BinderClientActivity"
             android:process=":other" />
 
@@ -77,7 +89,8 @@
 
         <provider
             android:name=".contentprovider.MyProvider"
-            android:authorities="com.xj.provider" />
+            android:authorities="com.xj.provider"
+            android:exported="true" />
     </application>
 
 </manifest>
