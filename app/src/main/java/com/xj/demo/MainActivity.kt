@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
+import com.xj.demo.animation.AnimationActivity
 import com.xj.demo.binder.BinderActivity
 import com.xj.demo.contentprovider.ProviderActivity
 import com.xj.demo.coroutine.CoroutineActivity
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity() {
 
     fun navigation(view: View) {
         startActivity(Intent(this, SecondActivity::class.java))
+    }
+
+    fun testAnimation(view: View) {
+        startActivity(Intent(this, AnimationActivity::class.java))
     }
 
     fun navigation2Provider(view: View) {

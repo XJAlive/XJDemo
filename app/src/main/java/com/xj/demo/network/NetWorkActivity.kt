@@ -31,13 +31,28 @@ class NetWorkActivity : AppCompatActivity() {
     private val rejectedExecutionHandler =
         RejectedExecutionHandler { r, executor -> Log.w("xj", "线程池满了，执行拒绝策略任务+1") }
 
+    class PrintLinkedBlockingQueue : LinkedBlockingQueue<Runnable> {
+        constructor() : super() {
+        }
+
+        constructor(capacity: Int) : super(capacity) {
+        }
+
+        override fun offer(e: Runnable?): Boolean {
+            val result = super.offer(e)
+            Log.d("xj", "offer()放到等待队列任务+1,是否成功 = $result")
+            return result
+        }
+
+    }
+
     //线程池
     private val executors = ThreadPoolExecutor(
         6,
         10,
         0,
         TimeUnit.SECONDS,
-        LinkedBlockingQueue<Runnable>(2),
+        PrintLinkedBlockingQueue(2),
         Executors.defaultThreadFactory(),
         rejectedExecutionHandler
     )

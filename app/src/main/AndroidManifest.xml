@@ -46,6 +46,8 @@
 
         <activity android:name=".contentprovider.ProviderActivity" />
 
+        <activity android:name=".animation.AnimationActivity"/>
+
         <activity
             android:name=".activity.Action1Activity"
             android:exported="true">
