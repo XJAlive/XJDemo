@@ -65,7 +65,7 @@ class JobAsyncTask : AsyncTask<String, Int, String>() {
     }
 
     /**
-     * 在execute()被调用后立即执行，一般用于UI更新
+     * 在execute()被调用前立即执行，一般用于UI更新
      */
     override fun onPreExecute() {
         super.onPreExecute()
