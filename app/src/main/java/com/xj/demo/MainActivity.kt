@@ -16,7 +16,7 @@ import com.xj.demo.network.NetWorkActivity
 import com.xj.demo.rxjava.RxUtils
 import com.xj.demo.service.RunningService
 import com.xj.demo.thread.ThreadActivity
-import com.xj.demo.view.TouchEventActivity
+import com.xj.demo.activity.TouchEventActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.xj.demo">
 
 
@@ -17,7 +18,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.XJDemo">
+        android:theme="@style/Theme.XJDemo"
+        tools:replace="android:icon,android:allowBackup,android:theme,android:label">
         <activity android:name=".WebActivity">
 
         </activity>
@@ -74,7 +76,7 @@
 
         <activity android:name=".coroutine.CoroutineActivity" />
 
-        <activity android:name=".view.TouchEventActivity" />
+        <activity android:name=".activity.TouchEventActivity" />
 
         <activity android:name=".mvvm.DataBindingtActivity" />
 
@@ -85,6 +87,8 @@
         <activity
             android:name=".binder.BinderClientActivity"
             android:process=":other" />
+
+     <activity android:name=".activity.TwoLevelActivity"/>
 
         <service android:name=".service.RunningService" />
         <service android:name=".binder.ServerService" />

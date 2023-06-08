@@ -1,4 +1,4 @@
-package com.xj.demo.view
+package com.xj.demo.activity
 
 import android.os.Bundle
 import android.util.Log
